@@ -1,29 +1,27 @@
-[{
+{
 	"test_id": 1,
-
-	"item1":{
-		"item_id": 1,
-		"question": "First question Q1",
-		"right answer": "Q1 right answer",
-		"hint1": "q1 hint1",
-		"hint2": "q1 hint2"
-	},
-
-	"item2":{
-		"item_id": 1,
-		"question": "Second question Q2",
-		"right answer": "Q2 right answer",
-		"hint1": "q2 hint1",
-		"hint2": "q2 hint2"
-	},
-
-	"item3":{
-		"item_id": 2,
-		"question": "Third question Q3",
-		"multiple_answers": ["answer1", "answer2", "answer3", "Q3 right answer"],
-		"right answer": "Q3 right answer",
-		"hint1": "q3 hint1",
-		"hint2": "q3 hint2"
-	}
-
-}]
+    "questions": [
+        {
+            "item_id": 1,
+            "question": "First question Q1",
+            "right answer": "Q1 right answer",
+            "hint1": "q1 hint1",
+            "hint2": "q1 hint2"
+        },
+        {
+            "item_id": 1,
+            "question": "Second question Q2",
+            "right answer": "Q2 right answer",
+            "hint1": "q2 hint1",
+            "hint2": "q2 hint2"
+        },
+        {
+            "item_id": 2,
+            "question": "Third question Q3",
+            "multiple_answers": ["answer1", "answer2", "answer3", "Q3 right answer"],
+            "right answer": "Q3 right answer",
+            "hint1": "q3 hint1",
+            "hint2": "q3 hint2"
+        }
+    ]
+}
