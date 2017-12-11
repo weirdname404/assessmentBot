@@ -30,11 +30,21 @@ namespace Bot_Application.Dialogs
             // Show question, wait for response
             // If correct, increment current question index
             // And so on
+
+            // call context.Wait(ProcessAnswer); -- checks answer
+        }
+
+        private async Task ProcessAnswer(IDialogContext context, IAwaitable<object> result)
+        {
+            // check answer here
+
+            // call context.Wait(ProcessAnswer); if answer is incorrect
+            // context.Wait(MessageReceivedAsync); -- ask another question
         }
 
         private async Task ShowCurrentQuestion()
         {
-
+            // print question and possible answers here
         }
     }
 }
