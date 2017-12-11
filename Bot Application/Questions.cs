@@ -8,8 +8,19 @@
     using System.Diagnostics;
 
     [Serializable]
-    public class Questions
+    public class Test
     {
+        public int test_id;
+        public List<Question> questions;
+
+        public class Question
+        {
+            public int item_id;
+            public string question;
+            public string right_answer;
+            public List<string> hints;
+            public List<string> multiple_answers;
+        }
 
         public static List<Test> LoadJson()
         {
@@ -20,25 +31,5 @@
                 return tests;
             }
         }
-
-        public class Test
-        {
-            public int test_id;
-            public Dictionary<string, string> questions;
-            public Dictionary<string, string> answers;
-            public Dictionary<string, Dictionary<string, string>> hints;
-        }
-
-        public static Test currentTest = LoadJson()[0];
-        public static String current_question = currentTest.questions["1"];
-
-        [Prompt("YO")]
-        public string firstQuestion { get; set; }
-
-        [Prompt("Please choose the right answer \n{&}")]
-        public string secondQuestion { get; set; }
-
-        [Prompt("Please write the right answer below: \n{&}")]
-        public string thirdQuestion { get; set; }
     }
 }
