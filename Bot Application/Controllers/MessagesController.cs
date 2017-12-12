@@ -19,7 +19,13 @@ namespace AssessmentBot
         {
             if (activity.Type == ActivityTypes.Message)
             {
+                //if (ActivityTypes.Message.Equals("/start"))
+                //{
+                //    await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+                //}
+
                 await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+
             }
             else
             {

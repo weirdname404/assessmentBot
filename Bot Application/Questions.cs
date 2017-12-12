@@ -13,6 +13,11 @@
         public int test_id;
         public List<Question> questions;
 
+        public static implicit operator Test(Question v)
+        {
+            throw new NotImplementedException();
+        }
+        [Serializable]
         public class Question
         {
             public int item_id;
@@ -20,16 +25,6 @@
             public string right_answer;
             public List<string> hints;
             public List<string> multiple_answers;
-        }
-
-        public static List<Test> LoadJson()
-        {
-            using (StreamReader r = new StreamReader("test1.json"))
-            {
-                string json = r.ReadToEnd();
-                List<Test> tests = JsonConvert.DeserializeObject<List<Test>>(json);
-                return tests;
-            }
         }
     }
 }
