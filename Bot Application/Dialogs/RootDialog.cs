@@ -60,8 +60,8 @@
             try
             {
                 //user_result = result.toString;
+                await context.PostAsync(text: $"You finished the test with { "" } mistakes.");
 
-                await context.PostAsync($"You finished the test with { result } mistakes.");
 
             }
             catch (TooManyAttemptsException)

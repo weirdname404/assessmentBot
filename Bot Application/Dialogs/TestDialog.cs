@@ -2,6 +2,7 @@
 {
     using AssessmentBot;
     using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Connector;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -32,32 +33,36 @@
         {
             await ShowCurrentQuestion(context);
             context.Wait(this.MessageReceivedAsync);
-            //return Task.CompletedTask;
         }
 
-        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
+
+        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             // Show question, wait for response
             // If correct, increment current question index
             // And so onz
 
             // call context.Wait(ProcessAnswer); -- checks answer
+            
+            var message = await result;
 
-            var message = numberOfMistakes;
+            //if (currentQuestionIndex + 1 == currentQuestions[currentQuestionIndex].hints.Count)
+            //{
+            //    /* Completes the dialog, removes it from the dialog stack, and returns the result to the parent/calling
+            //        dialog. */
+            //    context.Done(message.Text);
+            //}
 
-            if (currentQuestionIndex + 1 == currentQuestions[currentQuestionIndex].hints.Count)
+            while (currentQuestionIndex + 1 != currentQuestions[currentQuestionIndex].hints.Count)
             {
-                /* Completes the dialog, removes it from the dialog stack, and returns the result to the parent/calling
-                    dialog. */
-                context.Done(message);
+                await ProcessAnswer(context, message.Text);
+                await ShowCurrentQuestion(context);
+                context.Wait(this.MessageReceivedAsync);
             }
 
-            
-            await ProcessAnswer(context, result);
-            await ShowCurrentQuestion(context);
         }
 
-        private async Task ProcessAnswer(IDialogContext context, IAwaitable<object> result)
+        private async Task ProcessAnswer(IDialogContext context, string result)
         {
             // check answer here
 
@@ -68,16 +73,17 @@
             {
                 await context.PostAsync("Correct! :white_check_mark:");
                 currentQuestionIndex++;
-                context.Wait(MessageReceivedAsync);
-
+                
             } 
             if (!result.Equals(currentQuestions[currentQuestionIndex].right_answer))
             {
                 numberOfMistakes++;
-                await context.PostAsync("Incorrect! :x:");
-                await context.PostAsync(currentQuestions[currentQuestionIndex].hints[r.Next() * (currentQuestions[currentQuestionIndex].hints.Count)]);
-                context.Wait(ProcessAnswer);
+                await context.PostAsync("Incorrect! :x:\n" + currentQuestions[currentQuestionIndex].hints[r.Next() * (currentQuestions[currentQuestionIndex].hints.Count)]);
+                //await context.PostAsync(currentQuestions[currentQuestionIndex].hints[r.Next() * (currentQuestions[currentQuestionIndex].hints.Count)]);
+                
             }
+
+            //await StartAsync(context);
         }
 
         private async Task ShowCurrentQuestion(IDialogContext context)
@@ -86,13 +92,13 @@
             if (currentQuestions[currentQuestionIndex].item_id == 1)
             {
                 await context.PostAsync(currentQuestions[currentQuestionIndex].question);
-                context.Wait(this.MessageReceivedAsync);
+                //context.Call(this.MessageReceivedAsync);
             }
 
-            if (currentQuestions[currentQuestionIndex].item_id == 2)
-            {
-                PromptDialog.Choice(context, this.MessageReceivedAsync, currentQuestions[currentQuestionIndex].multiple_answers, currentQuestions[currentQuestionIndex].question, "Not a valid option", 3);
-            }
+            //if (currentQuestions[currentQuestionIndex].item_id == 2)
+            //{
+            //    PromptDialog.Choice(context, this.MessageReceivedAsync, currentQuestions[currentQuestionIndex].multiple_answers, currentQuestions[currentQuestionIndex].question, "Not a valid option", 3);
+            //}
         }
     }
 }
